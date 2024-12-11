@@ -152,6 +152,6 @@ jobs:
           file: ./Dockerfile.release
           platforms: linux/amd64
           push: true
-          tags: availj/avail-light:${{ github.ref_name }}
+          tags: moraesjeremias/avail-light:${{ github.ref_name }}
           build-args: |
             AVAIL_TAG=${{ github.ref_name }}
