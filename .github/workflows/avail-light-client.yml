@@ -109,20 +109,6 @@ jobs:
          overwrite: true
          file_glob: true
 
-  trigger_deploy_workflow:
-    needs: [build]
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Trigger repository_dispatch for release
-        shell: bash
-        run: |
-          curl -s -o /dev/null -w "%{http_code}" \
-            -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
-            https://api.github.com/repos/availproject/avail-light-infra/dispatches \
-            -d '{"event_type": "binary_release", "client_payload": {"avail_light_version": "${{ github.ref_name }}" }}'
-
   # build avail image and publish to dockerhub
   docker_build_push:
     needs: [build]
@@ -152,6 +138,6 @@ jobs:
           file: ./Dockerfile.release
           platforms: linux/amd64
           push: true
-          tags: availj/avail-light:${{ github.ref_name }}
+          tags: moraesjeremias/avail-light:${{ github.ref_name }}
           build-args: |
             AVAIL_TAG=${{ github.ref_name }}
